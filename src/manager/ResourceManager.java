@@ -17,7 +17,6 @@ public class ResourceManager {
         credits = 500;
     }
 
-    // check if we have enough resources
     public boolean hasEnough(Map<Resource, Integer> required) {
         for (Map.Entry<Resource, Integer> entry : required.entrySet()) {
             if (inventory.getOrDefault(entry.getKey(), 0) < entry.getValue()) {
@@ -27,7 +26,6 @@ public class ResourceManager {
         return true;
     }
 
-    // consume resources, returns false if not enough
     public boolean consume(Map<Resource, Integer> required) {
         if (!hasEnough(required)) {
             System.out.println("ERROR: Not enough resources!");
@@ -59,5 +57,26 @@ public class ResourceManager {
 
     public HashMap<Resource, Integer> getInventory() {
         return new HashMap<>(inventory);
+    }
+
+    public int getRestockCost(Resource r) {
+        if (r == Resource.OXYGEN)
+            return 50;
+        if (r == Resource.SPARE_PARTS)
+            return 30;
+        if (r == Resource.RATIONS)
+            return 20;
+        return 0;
+    }
+
+    public boolean restockWithCost(Resource r, int amount) {
+        int cost = getRestockCost(r) * amount;
+        if (credits < cost) {
+            System.out.println("ERROR: Not enough credits to restock!");
+            return false;
+        }
+        credits -= cost;
+        restock(r, amount);
+        return true;
     }
 }
