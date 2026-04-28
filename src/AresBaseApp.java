@@ -9,6 +9,7 @@ import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 import engine.SimulationEngine;
 import engine.TaskExecutor;
+import fileio.SaveLoadManager;
 import manager.ResourceManager;
 import model.Resource;
 import model.processors.EngineeringBay;
@@ -79,6 +80,14 @@ public class AresBaseApp extends Application {
         logArea.appendText("System started...\n");
         logPanel.getChildren().addAll(logTitle, logArea);
 
+        VBox saveLoadPanel = new VBox(10);
+        saveLoadPanel.setPadding(new Insets(10));
+        saveLoadPanel.setStyle("-fx-border-color: gray; -fx-border-width: 1;");
+        Label saveLoadTitle = new Label("Save / Load");
+        Button saveBtn = new Button("Save Game");
+        Button loadBtn = new Button("Load Game");
+        saveLoadPanel.getChildren().addAll(saveLoadTitle, saveBtn, loadBtn);
+
         executeBtn.setOnAction(e -> {
             ColonyTask task = engine.pollTask();
             String result = executor.executeTask(task);
@@ -99,6 +108,18 @@ public class AresBaseApp extends Application {
             updateVitals();
         });
 
+        saveBtn.setOnAction(e -> {
+            SaveLoadManager.save(resourceManager, engine.getTaskQueue());
+            logArea.appendText("Game saved!\n");
+        });
+
+        loadBtn.setOnAction(e -> {
+            SaveLoadManager.load(resourceManager, engine.getTaskQueue());
+            logArea.appendText("Game loaded!\n");
+            updateVitals();
+            updateQueue();
+        });
+
         Timeline timer = new Timeline(new KeyFrame(Duration.seconds(3), e -> {
             ColonyTask newTask = engine.generateRandomTask();
             engine.addTask(newTask);
@@ -116,6 +137,7 @@ public class AresBaseApp extends Application {
         grid.add(vitalsPanel, 1, 0);
         grid.add(cargoPanel, 0, 1);
         grid.add(logPanel, 1, 1);
+        grid.add(saveLoadPanel, 0, 2);
 
         Scene scene = new Scene(grid, 800, 600);
         stage.setTitle("Ares Base - Survival Dashboard");
