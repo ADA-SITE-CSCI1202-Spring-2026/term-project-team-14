@@ -1,7 +1,7 @@
-import manager.ResourceManager;
-import model.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import manager.ResourceManager;
+import model.Resource;
 
 public class TestResourceManager {
     public static void main(String[] args) {
@@ -20,12 +20,10 @@ public class TestResourceManager {
         System.out.println("Consumed: " + result);
         System.out.println("Oxygen after: " + rm.getQuantity(Resource.OXYGEN));
 
-        // try to consume too much
         Map<Resource, Integer> tooMuch = new HashMap<>();
         tooMuch.put(Resource.OXYGEN, 999);
         rm.consume(tooMuch);
 
-        // restock
         rm.restock(Resource.SPARE_PARTS, 10);
         System.out.println("Spare Parts after restock: " + rm.getQuantity(Resource.SPARE_PARTS));
     }
