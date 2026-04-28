@@ -16,12 +16,9 @@ import model.processors.EngineeringBay;
 import model.processors.HydroponicsModule;
 import model.processors.IProcessor;
 import model.processors.MedicalWard;
-import model.processors.HydroponicsModule;
 import model.tasks.ColonyTask;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.html.ListView;
 
 public class AresBaseApp extends Application {
 
@@ -144,7 +141,9 @@ public class AresBaseApp extends Application {
         grid.add(logPanel, 1, 1);
         grid.add(saveLoadPanel, 0, 2);
 
-        Scene scene = new Scene(grid, 800, 600);
+        Scene scene = new Scene(grid, 900, 700);
+        stage.setMinWidth(900);
+        stage.setMinHeight(700);
         stage.setTitle("Ares Base - Survival Dashboard");
         stage.setScene(scene);
         stage.show();
