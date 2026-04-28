@@ -13,11 +13,15 @@ import fileio.SaveLoadManager;
 import manager.ResourceManager;
 import model.Resource;
 import model.processors.EngineeringBay;
+import model.processors.HydroponicsModule;
 import model.processors.IProcessor;
 import model.processors.MedicalWard;
+import model.processors.HydroponicsModule;
 import model.tasks.ColonyTask;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.html.ListView;
 
 public class AresBaseApp extends Application {
 
@@ -40,6 +44,7 @@ public class AresBaseApp extends Application {
         List<IProcessor> processors = new ArrayList<>();
         processors.add(new EngineeringBay());
         processors.add(new MedicalWard());
+        processors.add(new HydroponicsModule());
         executor = new TaskExecutor(resourceManager, processors);
 
         VBox queuePanel = new VBox(10);
